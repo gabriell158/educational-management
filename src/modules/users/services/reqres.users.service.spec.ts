@@ -4,6 +4,7 @@ import { NotFoundException } from '@nestjs/common';
 import { ReqResUsersService } from './reqres.users.service';
 import { ReqResUsersRepository } from '../repositories/reqres.users.repository';
 import 'dotenv/config';
+import { AxiosService } from '../../axios/services/axios.service';
 
 describe('UsersService', () => {
   let service: ReqResUsersService;
@@ -16,8 +17,8 @@ describe('UsersService', () => {
         ReqResUsersService,
         ReqResUsersRepository,
         {
-          provide: String,
-          useFactory: () => process.env.REQ_RES_API,
+          provide: AxiosService,
+          useFactory: () => null,
         },
       ],
     }).compile();

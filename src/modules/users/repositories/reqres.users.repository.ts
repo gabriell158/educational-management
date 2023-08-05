@@ -1,10 +1,5 @@
-import {
-  HttpException,
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
-import axios, { Axios, AxiosError } from 'axios';
+import { Inject, Injectable } from '@nestjs/common';
+import { AxiosService } from '../../axios/services/axios.service';
 
 export interface User {
   id: number;
@@ -28,50 +23,25 @@ export interface FindManyRequestBody<T> {
 
 @Injectable()
 export class ReqResUsersRepository {
-  client: Axios;
-  constructor(@Inject(String) url: string) {
-    this.client = axios.create({
-      baseURL: url,
-    });
-  }
+  constructor(
+    @Inject(AxiosService) private readonly axiosService: AxiosService,
+  ) {}
 
   async find() {
-    try {
-      const {
-        data: { data },
-      } = await this.client.get<FindManyRequestBody<User>>(
-        '/users?per_page=12',
-      );
-      return data.map(({ first_name, last_name, ...props }) => ({
-        ...props,
-        firstName: first_name,
-        lastName: last_name,
-      }));
-    } catch (error) {
-      if (error instanceof AxiosError)
-        throw new HttpException(
-          error.response.statusText,
-          error.response.status,
-        );
-      throw new InternalServerErrorException();
-    }
+    const { data } = await this.axiosService.get<FindManyRequestBody<User>>(
+      '/users?per_page=12',
+    );
+    return data.map(({ first_name, last_name, ...props }) => ({
+      ...props,
+      firstName: first_name,
+      lastName: last_name,
+    }));
   }
 
   async findOne(id: number) {
-    try {
-      const {
-        data: {
-          data: { first_name, last_name, ...data },
-        },
-      } = await this.client.get<FindRequestBody<User>>(`/users/${id}`);
-      return { ...data, firstName: first_name, lastName: last_name };
-    } catch (error) {
-      if (error instanceof AxiosError)
-        throw new HttpException(
-          error.response.statusText,
-          error.response.status,
-        );
-      throw new InternalServerErrorException();
-    }
+    const {
+      data: { first_name, last_name, ...data },
+    } = await this.axiosService.get<FindRequestBody<User>>(`/users/${id}`);
+    return { ...data, firstName: first_name, lastName: last_name };
   }
 }
