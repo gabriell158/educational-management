@@ -120,6 +120,22 @@ describe('ActivitiesService', () => {
     }
   });
 
+  it('should throw an error if no course is found for the activity', async () => {
+    jest
+      .spyOn(repository, 'findOne')
+      .mockImplementation(async () => savedActivity);
+    jest.spyOn(coursesService, 'findOne').mockImplementation(async () => null);
+    try {
+      await service.update(savedActivity.id, {
+        courseId: faker.number.int({ min: 1 }),
+      });
+    } catch (error) {
+      console.error(error);
+      expect(error).toBeInstanceOf(NotFoundException);
+      expect(error.message).toBe('Course not found');
+    }
+  });
+
   it('should throw an error if no activity is found', async () => {
     jest.spyOn(repository, 'findOne').mockImplementation(async () => null);
     try {

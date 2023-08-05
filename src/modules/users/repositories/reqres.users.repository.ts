@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { AxiosService } from '../../axios/services/axios.service';
+import { AxiosService } from '../../axios/axios.service';
 
 export interface User {
   id: number;

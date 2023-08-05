@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ReqResUsersService } from '../services/reqres.users.service';
 
-@Controller('users')
+@Controller('user')
 export class ReqResUsersController {
   constructor(private readonly reqResUsersService: ReqResUsersService) {}
 
@@ -12,6 +12,11 @@ export class ReqResUsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    return this.reqResUsersService.findOne(+id);
+  }
+
+  @Get(':id/avatar')
+  findAvatar(@Param('id') id: string) {
     return this.reqResUsersService.findOne(+id);
   }
 }

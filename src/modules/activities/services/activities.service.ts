@@ -31,6 +31,8 @@ export class ActivitiesService {
   async update(id: number, updateActivityeDto: UpdateActivityDto) {
     const activity = await this.activitiesRepository.findOne({ id });
     if (!activity) throw new NotFoundException('Activity not found');
+    if (updateActivityeDto.courseId)
+      await this.coursesService.findOne(updateActivityeDto.courseId);
     await this.activitiesRepository.update({ id, data: updateActivityeDto });
     return this.activitiesRepository.findOne({ id });
   }
