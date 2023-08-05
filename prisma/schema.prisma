@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  firstName String
+  lastName  String
+  avatar    String?
+  role      Role?      @relation(fields: [roleId], references: [id])
+  roleId    Int?
+  course    Course?    @relation(fields: [courseId], references: [id])
+  courseId  Int?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Role {
+  id        Int       @id @default(autoincrement())
+  name      String
+  user      User[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@unique([name, deletedAt])
+}
+
+model Course {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  duration  Int
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
+  Activity  Activity[]
+  User      User[]
+}
+
+model Activity {
+  id       Int    @id @default(autoincrement())
+  name     String
+  score    Float
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
+  File     File[]
+}
+
+model File {
+  id         Int      @id @default(autoincrement())
+  name       String
+  path       String
+  activity   Activity @relation(fields: [activityId], references: [id])
+  activityId Int
+}
