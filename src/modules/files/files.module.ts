@@ -1,9 +1,23 @@
 import { Module } from '@nestjs/common';
 import { FilesService } from './services/files.service';
-import { FilesController } from './files.controller';
+import { FilesController } from './controllers/files.controller';
+import { FilesRepository } from './repositories/files.repository';
+import { ActivitiesService } from '../activities/services/activities.service';
+import { ActivitiesRepository } from '../activities/repositories/activities.repository';
+import { PrismaService } from '../prisma/prisma.service';
+import { CoursesService } from '../courses/services/courses.service';
+import { CoursesRepository } from '../courses/repositories/courses.repository';
 
 @Module({
   controllers: [FilesController],
-  providers: [FilesService],
+  providers: [
+    FilesService,
+    FilesRepository,
+    ActivitiesService,
+    ActivitiesRepository,
+    PrismaService,
+    CoursesService,
+    CoursesRepository,
+  ],
 })
 export class FilesModule {}

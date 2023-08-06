@@ -27,7 +27,7 @@ model User {
 model Role {
   id        Int       @id @default(autoincrement())
   name      String
-  user      User[]
+  users     User[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
@@ -36,14 +36,14 @@ model Role {
 }
 
 model Course {
-  id        Int        @id @default(autoincrement())
-  name      String
-  duration  Int
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  deletedAt DateTime?
-  Activity  Activity[]
-  User      User[]
+  id         Int        @id @default(autoincrement())
+  name       String
+  duration   Int
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  deletedAt  DateTime?
+  activities Activity[]
+  users      User[]
 
   @@unique([name, deletedAt])
 }
@@ -54,7 +54,7 @@ model Activity {
   score     Float
   course    Course    @relation(fields: [courseId], references: [id])
   courseId  Int
-  File      File[]
+  files     File[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?

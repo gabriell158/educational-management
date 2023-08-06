@@ -1,7 +1,6 @@
 import { Prisma, File } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateFileDto } from '../dto/create-file.dto';
 
 @Injectable()
 export class FilesRepository {
@@ -12,7 +11,7 @@ export class FilesRepository {
   }
 
   async find() {
-    return this.prisma.file.findMany();
+    return this.prisma.file.findMany({ select: { id: true, name: true } });
   }
 
   async findOne({ id }: { id: File['id'] }) {

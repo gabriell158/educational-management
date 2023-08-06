@@ -28,6 +28,12 @@ export class ActivitiesService {
     return activity;
   }
 
+  async findFiles(id: number) {
+    const activity = await this.activitiesRepository.findOneWithFiles({ id });
+    if (!activity) throw new NotFoundException('Activity not found');
+    return activity.files;
+  }
+
   async update(id: number, updateActivityeDto: UpdateActivityDto) {
     const activity = await this.activitiesRepository.findOne({ id });
     if (!activity) throw new NotFoundException('Activity not found');

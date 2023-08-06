@@ -19,6 +19,17 @@ export class ActivitiesRepository {
     return this.prisma.activity.findUnique({ where: { id } });
   }
 
+  async findOneWithFiles({ id }: { id: Activity['id'] }) {
+    return this.prisma.activity.findUnique({
+      where: { id },
+      include: {
+        files: {
+          select: { name: true, path: true },
+        },
+      },
+    });
+  }
+
   async update({
     id,
     data,

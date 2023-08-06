@@ -11,7 +11,7 @@ import { CoursesService } from '../services/courses.service';
 import { CreateCourseDto } from '../dto/create-course.dto';
 import { UpdateCourseDto } from '../dto/update-course.dto';
 
-@Controller('course')
+@Controller('courses')
 export class CoursesController {
   constructor(private readonly courseService: CoursesService) {}
 

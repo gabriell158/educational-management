@@ -6,18 +6,42 @@ import {
   Patch,
   Param,
   Delete,
+  UploadedFile,
+  UseInterceptors,
+  StreamableFile,
+  Res,
 } from '@nestjs/common';
-import { CreateFileDto } from '../dto/create-file.dto';
 import { UpdateFileDto } from '../dto/update-file.dto';
 import { FilesService } from '../services/files.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
-  @Post()
-  create(@Body() createFileDto: CreateFileDto) {
-    return this.filesService.create(createFileDto);
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  create(
+    @Body() { activityId }: { activityId: string },
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.filesService.create({
+      file,
+      activityId: +activityId,
+      name: file.originalname,
+    });
+  }
+
+  @Get('download/:id')
+  download(@Param('id') id: string): Promise<StreamableFile> {
+    return this.filesService.download(+id);
+  }
+
+  @Get('download/:activityId/all')
+  downloadAll(
+    @Param('activityId') activityId: string,
+  ): Promise<StreamableFile> {
+    return this.filesService.downloadAll(+activityId);
   }
 
   @Get()
