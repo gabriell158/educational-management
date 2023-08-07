@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MessagingService } from './services/messaging.service';
 import { MessagingController } from './controllers/messaging.controller';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
-import { rabbitmqConfig } from '../../config/amqp';
+import { rabbitmqConfig } from '../../shared/config/amqp';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
