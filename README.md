@@ -82,6 +82,32 @@ $ yarn run start:dev
 # production mode
 $ yarn run start:prod
 ```
+## Migrations
+
+In this app, the Prisma ORM will manage database connections, seeds and migrations.
+
+
+To run pending migrations, run the following command.
+
+
+```bash
+$ yarn prisma migrate dev
+```
+
+
+This command will apply any pending migrations against the database, will check schema diff, and create new migrations if needed, and immediatily apply the new migrations, and seed the database.
+
+
+If you wish, you can run only the database seed only
+
+```bash
+$ yarn prisma db seed
+```
+
+This seed will add two things: the first are the two possible roles for the users; admin and user
+The second is create a default admin with name admin and password admin
+
+Learn more about Prisma in the official [website](https://www.prisma.io/)
 
 ## Test
 
@@ -114,8 +140,6 @@ If you wish to test the endpoints guarded by the admin role, pass the following 
 ## TODOS
 
 - Fix and finish unit tests.
-- Seed the database.
-- Add migration section on this file.
 - Add Swagger.
 - Save the files on S3 instead of on disk.
 - Implement SES for email notification.

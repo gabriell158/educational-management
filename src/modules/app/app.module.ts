@@ -22,7 +22,7 @@ import { RolesGuard } from '../guard/roles.guard';
     MessagingModule,
     JwtModule.register({
       global: true,
-      secret: 'secret',
+      secret: process.env.SECRET,
     }),
   ],
   controllers: [AppController],

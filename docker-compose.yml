@@ -1,25 +1,39 @@
 version: '3.2'
 
 services:
-  # app:
+  app:
+    build: .
+    ports:
+      - ${API_PORT}:${API_PORT}
+    command:
+      - sh
+      - -c
+      - |
+        yarn prisma migrate dev && yarn start:dev
+    restart: on-failure
+    networks:
+      - myapp_network
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
+    container_name: rabbitmq
     ports:
       - ${RABBITMQ_MAIN_PORT}:${RABBITMQ_MAIN_PORT}
       - ${RABBITMQ_CONSOLE_PORT}:${RABBITMQ_CONSOLE_PORT}
     networks:
-      - rabbitmq_go_net
+      - myapp_network
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
   postgres:
     image: postgres
+    container_name: postgres
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - ${DB_PORT}:${DB_PORT}
+    networks:
+    - myapp_network
 
 networks:
-  rabbitmq_go_net:
+  myapp_network:
     driver: bridge
