@@ -64,6 +64,7 @@ export class FilesService {
   }
 
   async downloadAll(activityId: number) {
+    // TODO: save and download from S3
     const files = await this.activitiesService.findFiles(activityId);
     const writetream = createWriteStream(process.cwd() + '/files.zip');
     const archive = archiver('zip', {

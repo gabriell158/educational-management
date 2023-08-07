@@ -3,6 +3,7 @@ import { CreateActivityDto } from '../dto/create-activity.dto';
 import { UpdateActivityDto } from '../dto/update-activity.dto';
 import { ActivitiesRepository } from '../repositories/activities.repository';
 import { CoursesService } from '../../courses/services/courses.service';
+import { MessagingService } from '../../messaging/services/messaging.service';
 
 @Injectable()
 export class ActivitiesService {
@@ -10,11 +11,14 @@ export class ActivitiesService {
     @Inject(ActivitiesRepository)
     private readonly activitiesRepository: ActivitiesRepository,
     @Inject(CoursesService) private readonly coursesService: CoursesService,
+    @Inject(MessagingService)
+    private readonly messagingService: MessagingService,
   ) {}
 
   async create({ courseId, ...data }: CreateActivityDto) {
     const course = await this.coursesService.findOne(courseId);
     if (!course) throw new NotFoundException('Course not found');
+    await this.messagingService.notify(data);
     return this.activitiesRepository.create({ ...data, courseId });
   }
 

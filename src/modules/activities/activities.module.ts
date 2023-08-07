@@ -5,8 +5,11 @@ import { ActivitiesRepository } from './repositories/activities.repository';
 import { PrismaService } from '../prisma/prisma.service';
 import { CoursesService } from '../courses/services/courses.service';
 import { CoursesRepository } from '../courses/repositories/courses.repository';
+import { MessagingModule } from '../messaging/messaging.module';
+import { MessagingService } from '../messaging/services/messaging.service';
 
 @Module({
+  imports: [MessagingModule],
   controllers: [ActivitiesController],
   providers: [
     ActivitiesService,
@@ -14,6 +17,7 @@ import { CoursesRepository } from '../courses/repositories/courses.repository';
     CoursesService,
     CoursesRepository,
     PrismaService,
+    MessagingService,
   ],
 })
 export class ActivitiesModule {}

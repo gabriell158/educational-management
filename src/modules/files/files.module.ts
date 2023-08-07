@@ -7,8 +7,11 @@ import { ActivitiesRepository } from '../activities/repositories/activities.repo
 import { PrismaService } from '../prisma/prisma.service';
 import { CoursesService } from '../courses/services/courses.service';
 import { CoursesRepository } from '../courses/repositories/courses.repository';
+import { MessagingModule } from '../messaging/messaging.module';
+import { MessagingService } from '../messaging/services/messaging.service';
 
 @Module({
+  imports: [MessagingModule],
   controllers: [FilesController],
   providers: [
     FilesService,
@@ -18,6 +21,7 @@ import { CoursesRepository } from '../courses/repositories/courses.repository';
     PrismaService,
     CoursesService,
     CoursesRepository,
+    MessagingService,
   ],
 })
 export class FilesModule {}
