@@ -23,7 +23,6 @@ import { RolesGuard } from '../guard/roles.guard';
     JwtModule.register({
       global: true,
       secret: 'secret',
-      // signOptions: { expiresIn: '60s' },
     }),
   ],
   controllers: [AppController],
