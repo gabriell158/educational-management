@@ -3,13 +3,12 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
   UploadedFile,
   UseInterceptors,
   StreamableFile,
-  Res,
 } from '@nestjs/common';
 import { UpdateFileDto } from '../dto/update-file.dto';
 import { FilesService } from '../services/files.service';
@@ -54,7 +53,7 @@ export class FilesController {
     return this.filesService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateFileDto: UpdateFileDto) {
     return this.filesService.update(+id, updateFileDto);
   }

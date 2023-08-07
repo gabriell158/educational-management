@@ -21,6 +21,7 @@ export class ReqResUsersService {
   }
 
   async findAvatar(id: number) {
+    // TODO: implement cache
     if (cache[id]) return cache[id];
     const user = await this.usersRepository.findOne(id);
     if (!user) throw new NotFoundException('User not found');
